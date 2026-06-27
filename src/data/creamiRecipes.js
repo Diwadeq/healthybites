@@ -428,6 +428,138 @@ export const CREAMI_RECIPES = [
       ]},
     ],
   },
+
+  // ── SHAKES (Milkshake function) ─────────────────────────────────────────────
+  {
+    id: 'c19', group: 'Random', type: 'shake', emoji: '🥤',
+    title: 'Chocolate Protein Shake',
+    subtitle: 'High Protein',
+    desc: 'Thick, frosty protein milkshake — use the Milkshake function for a drinkable texture.',
+    tags: ['Chocolate', 'High Protein', 'Shake'],
+    sections: [
+      { label: 'Ingredients', type: 'ing', items: [
+        { n: '1% Milk', a: '300g' }, { n: 'Chocolate Whey', a: '30g' },
+        { n: 'Cocoa Powder', a: '6g' }, { n: 'Erythritol', a: '20g' },
+        { n: 'Vanilla Extract', a: '2g' }, { n: 'Salt', a: '0.5g' },
+      ]},
+      { label: 'Add after spin', type: 'ing', items: [
+        { n: 'Splash of milk', a: '40–60g' },
+      ]},
+      { label: 'Instructions', type: 'steps', items: [
+        'Blend all base ingredients until smooth.',
+        'Freeze 24h.',
+        'Add a splash of milk on top of the frozen pint.',
+        "Spin: 'Milkshake'.",
+        'Add more milk + respin until pourable.',
+      ]},
+    ],
+  },
+  {
+    id: 'c20', group: 'Random', type: 'shake', emoji: '🍓',
+    title: 'Strawberry Banana Shake',
+    subtitle: '',
+    desc: 'Creamy fruit shake that tastes like a smoothie but thicker and frostier.',
+    tags: ['Fruit', 'Shake', 'Classic'],
+    sections: [
+      { label: 'Ingredients', type: 'ing', items: [
+        { n: 'Milk', a: '280g' }, { n: 'Frozen Strawberries', a: '80g' },
+        { n: 'Banana', a: '½' }, { n: 'Vanilla Whey', a: '25g' },
+        { n: 'Erythritol', a: '15g' },
+      ]},
+      { label: 'Add after spin', type: 'ing', items: [
+        { n: 'Splash of milk', a: '40–60g' },
+      ]},
+      { label: 'Instructions', type: 'steps', items: [
+        'Blend all base ingredients until smooth.',
+        'Freeze 24h.',
+        'Add a splash of milk to the frozen pint.',
+        "Spin: 'Milkshake'. Add milk + respin until pourable.",
+      ]},
+    ],
+  },
+  {
+    id: 'c21', group: 'Random', type: 'shake', emoji: '🍪',
+    title: 'Cookies & Cream Shake',
+    subtitle: '',
+    desc: 'A milkshake version of the classic — Oreo bits blended into a frosty drink.',
+    tags: ['Mix-in', 'Shake', 'Classic'],
+    sections: [
+      { label: 'Ingredients', type: 'ing', items: [
+        { n: 'Fat-Free Milk', a: '300g' }, { n: 'Cookies & Cream Whey', a: '30g' },
+        { n: 'Whole Oreo', a: '2' }, { n: 'Erythritol', a: '15g' },
+        { n: 'Vanilla', a: '2g' },
+      ]},
+      { label: 'Add after spin', type: 'ing', items: [
+        { n: 'Splash of milk', a: '40–60g' }, { n: 'Crushed Oreo', a: '1' },
+      ]},
+      { label: 'Instructions', type: 'steps', items: [
+        'Blend milk, whey, 2 Oreos, sweetener and vanilla.',
+        'Freeze 24h.',
+        'Add a splash of milk to the pint.',
+        "Spin: 'Milkshake'. Add milk + respin until pourable.",
+        'Stir in crushed Oreo at the end.',
+      ]},
+    ],
+  },
+  {
+    id: 'c22', group: 'Random', type: 'shake', emoji: '🥜',
+    title: 'Peanut Butter Shake',
+    subtitle: 'High Protein',
+    desc: 'Rich, nutty and thick — like a frozen PB protein shake.',
+    tags: ['High Protein', 'Shake'],
+    sections: [
+      { label: 'Ingredients', type: 'ing', items: [
+        { n: 'Milk', a: '300g' }, { n: 'Vanilla Whey', a: '30g' },
+        { n: 'Powdered Peanut Butter', a: '16g' }, { n: 'Erythritol', a: '18g' },
+        { n: 'Salt', a: '0.5g' },
+      ]},
+      { label: 'Add after spin', type: 'ing', items: [
+        { n: 'Splash of milk', a: '40–60g' },
+      ]},
+      { label: 'Instructions', type: 'steps', items: [
+        'Blend all base ingredients until smooth.',
+        'Freeze 24h.',
+        'Add a splash of milk to the frozen pint.',
+        "Spin: 'Milkshake'. Add milk + respin until pourable.",
+      ]},
+    ],
+  },
+];
+
+// Recipes without an explicit `type` are categorised here (default → icecream)
+const CREAMI_TYPE_OVERRIDES = {
+  c8: 'slushy', c9: 'slushy', c15: 'slushy', c16: 'slushy', c17: 'slushy',
+};
+
+export function getCreamiType(r) {
+  return r.type || CREAMI_TYPE_OVERRIDES[r.id] || 'icecream';
+}
+
+export const CREAMI_TYPES = [
+  {
+    key: 'shake',
+    label: 'Shake',
+    emoji: '🥤',
+    desc: 'Thick, pourable protein milkshakes',
+    image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=800&q=80',
+    color: 'from-[#5c3a1a]/75',
+  },
+  {
+    key: 'icecream',
+    label: 'Ice Cream',
+    emoji: '🍦',
+    desc: 'Scoopable creamy ice creams & gelato',
+    image: 'https://images.unsplash.com/photo-1501443762994-82bd5dace89a?w=800&q=80',
+    color: 'from-[#1a3a5c]/75',
+  },
+  {
+    key: 'slushy',
+    label: 'Slushy',
+    emoji: '🧊',
+    desc: 'Sorbets, italian ice & frozen fruit slushies',
+    image: 'https://images.unsplash.com/photo-1559158068-2d57c1e9a8e9?w=800&q=80',
+    color: 'from-[#2a6090]/75',
+  },
 ];
 
 export const CREAMI_TAGS = [

@@ -9,6 +9,7 @@ import SwipeMode from '@/pages/SwipeMode';
 import Planner from '@/pages/Planner';
 import ShoppingList from '@/pages/ShoppingList';
 import Creami from '@/pages/Creami';
+import CreamiSwipe from '@/pages/CreamiSwipe';
 import SweetHub from '@/pages/SweetHub';
 import SavoryHub from '@/pages/SavoryHub';
 
@@ -22,6 +23,7 @@ function App() {
         <Route path="/sweet" element={<SweetHub />} />
         <Route path="/savory" element={<SavoryHub />} />
         <Route path="/creami" element={<Creami />} />
+        <Route path="/creami/swipe" element={<CreamiSwipe />} />
         <Route path="/recipe/new" element={<RecipeForm />} />
         <Route path="/recipe/:id/edit" element={<RecipeForm />} />
         <Route path="/recipe/:id" element={<RecipeDetail />} />

@@ -4,14 +4,6 @@ import { ChevronLeft } from "lucide-react";
 
 const OPTIONS = [
   {
-    emoji: "🍦",
-    label: "Iced & Frozen",
-    desc: "Ninja Creami ice creams & sorbets — prep tonight, enjoy tomorrow",
-    image: "https://images.unsplash.com/photo-1501443762994-82bd5dace89a?w=800&q=80",
-    to: "/creami",
-    color: "from-[#1a3a5c]/70",
-  },
-  {
     emoji: "🔥",
     label: "Hot & Baked",
     desc: "Warm desserts, baked oats, chocolate treats",
@@ -55,13 +47,7 @@ export default function SweetHub() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.08, duration: 0.4, ease: "easeOut" }}
-            onClick={() =>
-              navigate(
-                opt.to
-                  ? opt.to
-                  : `/swipe?categories=${opt.categories}&label=${encodeURIComponent(opt.label)}&from=/sweet`
-              )
-            }
+            onClick={() => navigate(`/swipe?categories=${opt.categories}&label=${encodeURIComponent(opt.label)}&from=/sweet`)}
             className="relative h-44 rounded-3xl overflow-hidden cursor-pointer shadow-lg active:scale-[0.98] transition-transform"
           >
             <img src={opt.image} alt={opt.label} className="w-full h-full object-cover" />
