@@ -115,7 +115,7 @@ export default function RecipeForm() {
       {/* Header */}
       <div className="bg-[#FAF6EF] sticky top-0 z-20 px-5 pt-14 pb-4 flex items-center gap-3 border-b border-[#e8e0d5]">
         <button
-          onClick={() => navigate(-1)}
+          onClick={() => navigate('/library')}
           className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm"
         >
           <ChevronLeft size={20} className="text-[#2a2a2a]" />

@@ -1,9 +1,20 @@
+import { SEED_RECIPES } from '@/data/seedRecipes';
+
 const KEYS = {
   Recipe: 'hb_recipes',
   MealPlan: 'hb_meal_plans',
   ShoppingListItem: 'hb_shopping',
   CookingHistory: 'hb_history',
 };
+
+export function seedIfEmpty() {
+  if (localStorage.getItem('hb_seeded')) return;
+  const existing = JSON.parse(localStorage.getItem(KEYS.Recipe) || '[]');
+  if (existing.length === 0) {
+    localStorage.setItem(KEYS.Recipe, JSON.stringify(SEED_RECIPES));
+  }
+  localStorage.setItem('hb_seeded', '1');
+}
 
 function createStore(key) {
   const getAll = () => JSON.parse(localStorage.getItem(key) || '[]');
