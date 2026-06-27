@@ -12,7 +12,7 @@ import Creami from '@/pages/Creami';
 
 function App() {
   return (
-    <Router>
+    <Router basename="/menu">
       <ScrollToTop />
       <Routes>
         {/* Fullscreen — no bottom nav */}
