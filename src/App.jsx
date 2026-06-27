@@ -21,6 +21,7 @@ function App() {
         <Route path="/swipe" element={<SwipeMode />} />
         <Route path="/sweet" element={<SweetHub />} />
         <Route path="/savory" element={<SavoryHub />} />
+        <Route path="/creami" element={<Creami />} />
         <Route path="/recipe/new" element={<RecipeForm />} />
         <Route path="/recipe/:id/edit" element={<RecipeForm />} />
         <Route path="/recipe/:id" element={<RecipeDetail />} />
@@ -31,7 +32,6 @@ function App() {
           <Route path="/library" element={<Library />} />
           <Route path="/planner" element={<Planner />} />
           <Route path="/shopping" element={<ShoppingList />} />
-          <Route path="/creami" element={<Creami />} />
         </Route>
       </Routes>
     </Router>

@@ -114,6 +114,10 @@ export default function SwipeMode() {
     ? [singleCategory]
     : ["Dinner"];
   const label = searchParams.get("label") || categories.join(" · ");
+  const from = searchParams.get("from") || "/";
+
+  // Persist deck order + position so returning from a recipe resumes in place
+  const stateKey = `swipe_${categoriesParam || singleCategory || "Dinner"}`;
 
   const [recipes, setRecipes] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -122,22 +126,68 @@ export default function SwipeMode() {
 
   useEffect(() => {
     getRecipesForCategories(categories).then((data) => {
-      // Shuffle for variety
-      const shuffled = [...data].sort(() => Math.random() - 0.5);
-      setRecipes(shuffled);
+      const byId = Object.fromEntries(data.map((r) => [r.id, r]));
+      let order = null;
+      let index = 0;
+
+      // Try to restore a saved deck for this section
+      try {
+        const saved = JSON.parse(sessionStorage.getItem(stateKey) || "null");
+        if (saved && Array.isArray(saved.order)) {
+          const restored = saved.order.map((id) => byId[id]).filter(Boolean);
+          // Only restore if the library hasn't meaningfully changed
+          if (restored.length === data.length && restored.length > 0) {
+            order = restored;
+            index = Math.min(saved.index || 0, restored.length);
+          }
+        }
+      } catch { /* ignore corrupt state */ }
+
+      // Fresh shuffle if nothing valid to restore
+      if (!order) {
+        order = [...data].sort(() => Math.random() - 0.5);
+        index = 0;
+        sessionStorage.setItem(stateKey, JSON.stringify({ order: order.map((r) => r.id), index }));
+      }
+
+      setRecipes(order);
+      setCurrentIndex(index);
       setLoading(false);
-      if (data.length === 0) setFinished(true);
+      if (data.length === 0 || index >= order.length) setFinished(true);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoriesParam, singleCategory]);
 
-  function handleSwipeLeft() {
+  function saveIndex(index) {
+    try {
+      const saved = JSON.parse(sessionStorage.getItem(stateKey) || "null");
+      if (saved) sessionStorage.setItem(stateKey, JSON.stringify({ ...saved, index }));
+    } catch { /* ignore */ }
+  }
+
+  function advance() {
     const next = currentIndex + 1;
+    saveIndex(next);
     if (next >= recipes.length) setFinished(true);
     else setCurrentIndex(next);
   }
 
+  function handleSwipeLeft() {
+    advance();
+  }
+
   function handleSwipeRight() {
+    // Remember position so returning from the recipe resumes here
+    saveIndex(currentIndex);
     navigate(`/recipe/${recipes[currentIndex].id}`);
+  }
+
+  function restartDeck() {
+    const reshuffled = [...recipes].sort(() => Math.random() - 0.5);
+    sessionStorage.setItem(stateKey, JSON.stringify({ order: reshuffled.map((r) => r.id), index: 0 }));
+    setRecipes(reshuffled);
+    setCurrentIndex(0);
+    setFinished(false);
   }
 
   const current = recipes[currentIndex];
@@ -147,7 +197,7 @@ export default function SwipeMode() {
     <div className="min-h-screen bg-[#1a1a1a] flex flex-col">
       <div className="flex items-center justify-between px-5 pt-14 pb-4">
         <button
-          onClick={() => navigate("/")}
+          onClick={() => navigate(from)}
           className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center"
         >
           <ChevronLeft size={20} className="text-white" />
@@ -172,12 +222,30 @@ export default function SwipeMode() {
                 ? `No ${label} recipes yet. Add some to your library!`
                 : `You've seen all ${label} recipes.`}
             </p>
-            <button
-              onClick={() => navigate("/library?add=true")}
-              className="bg-[#3D5A3E] text-white font-bold px-6 py-3 rounded-2xl"
-            >
-              Add a Recipe
-            </button>
+            <div className="flex flex-col gap-3 w-full max-w-[240px]">
+              {recipes.length > 0 && (
+                <button
+                  onClick={restartDeck}
+                  className="bg-[#3D5A3E] text-white font-bold px-6 py-3 rounded-2xl active:scale-[0.98] transition-transform"
+                >
+                  🔄 Browse again
+                </button>
+              )}
+              <button
+                onClick={() => navigate(from)}
+                className="bg-white/10 text-white font-bold px-6 py-3 rounded-2xl active:scale-[0.98] transition-transform"
+              >
+                ← Back
+              </button>
+              {recipes.length === 0 && (
+                <button
+                  onClick={() => navigate("/library?add=true")}
+                  className="bg-[#3D5A3E] text-white font-bold px-6 py-3 rounded-2xl"
+                >
+                  Add a Recipe
+                </button>
+              )}
+            </div>
           </div>
         ) : (
           <div className="relative h-full" style={{ height: "calc(100vh - 200px)" }}>

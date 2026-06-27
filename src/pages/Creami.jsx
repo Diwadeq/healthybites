@@ -1,11 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ExternalLink, Snowflake } from "lucide-react";
+import { X, ExternalLink, Snowflake, ChevronLeft } from "lucide-react";
 import { CREAMI_RECIPES, CREAMI_TAGS } from "@/data/creamiRecipes";
 
 const GROUP_LABEL = { YT: '📺 YT Recipes', Random: '📖 Random Recipes' };
 
 export default function Creami() {
+  const navigate = useNavigate();
   const [activeTag, setActiveTag] = useState("All");
   const [search, setSearch] = useState("");
   const [selected, setSelected] = useState(null);
@@ -21,9 +23,17 @@ export default function Creami() {
     <div className="min-h-screen bg-[#FAF6EF]">
       {/* Header */}
       <div className="px-5 pt-14 pb-4">
-        <div className="flex items-center gap-2 mb-1">
-          <Snowflake size={18} className="text-[#6BB5E8]" />
-          <span className="text-xs font-bold text-[#6BB5E8] tracking-widest uppercase">Sweet Lab</span>
+        <div className="flex items-center gap-3 mb-2">
+          <button
+            onClick={() => navigate("/sweet")}
+            className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm shrink-0"
+          >
+            <ChevronLeft size={20} className="text-[#2a2a2a]" />
+          </button>
+          <div className="flex items-center gap-2">
+            <Snowflake size={18} className="text-[#6BB5E8]" />
+            <span className="text-xs font-bold text-[#6BB5E8] tracking-widest uppercase">Sweet · Iced & Frozen</span>
+          </div>
         </div>
         <h1 className="text-3xl font-black text-[#2a2a2a] leading-tight">
           🍦 Creami Recipes

@@ -49,7 +49,7 @@ export default function SavoryHub() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.1, duration: 0.4, ease: "easeOut" }}
-            onClick={() => navigate(`/swipe?categories=${opt.categories}&label=${encodeURIComponent(opt.label)}`)}
+            onClick={() => navigate(`/swipe?categories=${opt.categories}&label=${encodeURIComponent(opt.label)}&from=/savory`)}
             className="relative h-56 rounded-3xl overflow-hidden cursor-pointer shadow-lg active:scale-[0.98] transition-transform"
           >
             <img src={opt.image} alt={opt.label} className="w-full h-full object-cover" />
